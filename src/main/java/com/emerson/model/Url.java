@@ -54,7 +54,7 @@ public class Url {
 	}
 	public void setNome(String nome) {
 		if (nome.isEmpty()) {
-			this.nome = this.GerarNome(4);
+			this.nome = this.gerarNome(4);
 			this.personalizado = false;
 		} else {
 			this.nome = nome;
@@ -80,7 +80,7 @@ public class Url {
 				+ acessos + "]";
 	}
 	
-	public String GerarNome(int tamanho) {
+	public String gerarNome(int tamanho) {
 		char[] letras = "bZwCF8gSak4Ru1KVoz2yJXQrPTmi7Mc3BH0Lv5YtsWlOIDdfN6qGejAp9xUEnh".toCharArray();
 		StringBuffer nome = new StringBuffer();
 		

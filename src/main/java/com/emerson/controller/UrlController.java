@@ -45,7 +45,7 @@ public class UrlController {
 				return new ModelAndView("redirect:/"+lista.get(0).getNome()+"+");
 			} else {
 				while (this.urlRep.findByNome(url.getNome()).size() > 0) {
-					url.setNome(url.GerarNome(4));
+					url.setNome(url.gerarNome(4));
 				}
 				this.urlRep.save(url);
 				System.out.println("Nova URL cadastrada: "+url.getLink()+" ("+url.getNome()+").");
