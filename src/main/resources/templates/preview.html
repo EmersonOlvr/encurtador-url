@@ -21,7 +21,7 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text" style="background-color: #ffffff; width: 145px;">URL Encurtada: </span>
 			</div>
-			<input type="text" id="url_encurtada" class="form-control" th:value="|localhost/${url.nome}|" onclick="this.select()" readonly>
+			<input type="text" id="url_encurtada" class="form-control" th:value="|localhost/${url.urlEncurtada}|" onclick="this.select()" readonly>
 		</div>
 		<div class="input-group mb-1">
 			<div class="input-group-prepend">
@@ -33,7 +33,7 @@
 			<div class="input-group-prepend">
 				<span class="input-group-text" style="background-color: #ffffff; width: 145px;">URL Original: </span>
 			</div>
-			<input type="text" id="acessos" class="form-control" th:value="${url.link}" onclick="this.select()" readonly>
+			<input type="text" id="acessos" class="form-control" th:value="${url.urlOriginal}" onclick="this.select()" readonly>
 		</div>
 		
 		<div>Crie outra <a href="/">URL encurtada</a>.</div>

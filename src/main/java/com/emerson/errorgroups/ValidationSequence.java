@@ -4,7 +4,7 @@ import javax.validation.GroupSequence;
 
 import com.emerson.errorgroups.url.*;
 
-@GroupSequence({LinkNotBlankGroup.class, NomePatternGroup.class, NomeSizeMaxGroup.class})
+@GroupSequence({UrlOriginalNotBlankGroup.class, UrlEncurtadaPatternGroup.class, UrlEncurtadaSizeMaxGroup.class})
 public interface ValidationSequence {
 
 }

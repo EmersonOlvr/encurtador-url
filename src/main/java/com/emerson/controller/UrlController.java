@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -30,72 +31,89 @@ public class UrlController {
 		return mv;
 	}
 	@PostMapping("/")
-	public ModelAndView encurtar(@ModelAttribute @Validated(value=ValidationSequence.class) Url url, BindingResult result) {
+	public ModelAndView encurtar(Model model, @ModelAttribute @Validated(value=ValidationSequence.class) Url url, BindingResult result) {
 		ModelAndView mv = new ModelAndView("index");
 		mv.addObject("url", url);
 		
-		if (result.hasFieldErrors()) {
+		if (result.hasErrors()) {
 			return mv;
 		}
 		
-		if (!url.isPersonalizado()) {
-			List<Url> lista = this.urlRep.findByLinkAndPersonalizado(url.getLink(), false);
+		// se a url não estiver personalizada...
+		if (!url.isPersonalizada()) {
+			// busca esta url no banco...
+			List<Url> lista = this.urlRep.findByUrlOriginalAndPersonalizada(url.getUrlOriginal(), false);
+			// se já existir alguma...
 			if (lista.size() > 0) {
-				System.out.println("URL já cadastrada ("+url.getLink()+"). Redirecionando para o preview ("+lista.get(0).getNome()+")...");
-				return new ModelAndView("redirect:/"+lista.get(0).getNome()+"+");
+				System.out.println("URL já cadastrada ("+url.getUrlOriginal()+"). Redirecionando para o preview ("+lista.get(0).getUrlEncurtada()+")...");
+				// redireciona para o preview desta url
+				return new ModelAndView("redirect:/"+lista.get(0).getUrlEncurtada()+"+");
+			// senão...
 			} else {
-				while (this.urlRep.findByNome(url.getNome()).size() > 0) {
-					url.setNome(url.gerarNome(4));
+				// gera uma url encurtada única...
+				while (this.urlRep.findByUrlEncurtada(url.getUrlEncurtada()).size() > 0) {
+					url.setUrlEncurtada(url.gerarNome(4));
 				}
+				// salva no banco
 				this.urlRep.save(url);
-				System.out.println("Nova URL cadastrada: "+url.getLink()+" ("+url.getNome()+").");
-				return new ModelAndView("redirect:/"+url.getNome()+"+");
+				System.out.println("Nova URL cadastrada: "+url.getUrlOriginal()+" ("+url.getUrlEncurtada()+").");
+				return new ModelAndView("redirect:/"+url.getUrlEncurtada()+"+");
 			}
+		// se a url estiver personalizada...
 		} else {
-			List<Url> lista = this.urlRep.findByNome(url.getNome());
+			// busca urls no banco com esta mesma personalização
+			List<Url> lista = this.urlRep.findByUrlEncurtada(url.getUrlEncurtada());
+			// se já existir alguma...
 			if (lista.size() > 0) {
-				System.out.println("Erro: personalização já em uso ("+url.getNome()+")!");
-				result.addError(new ObjectError("personalizacaoEmUso", "Personalização já em uso!"));
+				// adiciona um novo erro para ser exibido na view
+				result.addError(new ObjectError("personalizacaoExistente", "Personalização já existente."));
+				System.out.println("Erro: personalização já existente ("+url.getUrlEncurtada()+").");
 				return mv;
+			// se não existir...
 			} else {
+				// salva no banco
 				this.urlRep.save(url);
-				System.out.println("Nova URL (personalizada) cadastrada: "+url.getLink()+" ("+url.getNome()+").");
-				return new ModelAndView("redirect:/"+url.getNome()+"+");
+				System.out.println("Nova URL (personalizada) cadastrada: "+url.getUrlOriginal()+" ("+url.getUrlEncurtada()+").");
+				return new ModelAndView("redirect:/"+url.getUrlEncurtada()+"+");
 			}
 		}
 	}
-	@GetMapping("/{nome}")
-	public String redirecionar(@PathVariable String nome) {
+	@GetMapping("/{url_encurtada}")
+	public String redirecionar(@PathVariable String url_encurtada) {
 		Url url;
-		try {
-			// obtém a linha do banco que tem o nome {nome}
-			url = this.urlRep.findByNome(nome).get(0);
-		} catch(Exception e) {
-			System.out.println("Erro: não existe nenhum link com este nome: "+nome);
+		// busca no banco a url encurtada
+		List<Url> lista = this.urlRep.findByUrlEncurtada(url_encurtada);
+		// se existir alguma...
+		if (lista.size() > 0) {
+			// obtém a primeira (e só poderia ter 1 mesmo)
+			url = lista.get(0);
+		} else {
+			System.out.println("Erro: URL não cadastrada ("+url_encurtada+").");
 			return "redirect:/";
 		}
-		// incrementa os acessos
+		// incrementa os acessos e atualiza no banco
 		url.setAcessos(url.getAcessos() + 1);
-		
-		// atualiza a url no banco de dados (os acessos)
 		this.urlRep.save(url);
 		
-		System.out.println("Redirecionando para: "+url.getLink()+" ("+nome+")...");
-		return "redirect:"+url.getLink();
+		System.out.println("Redirecionando para "+url.getUrlOriginal()+" ("+url_encurtada+")...");
+		return "redirect:"+url.getUrlOriginal();
 	}
-	@GetMapping("/{nome}+")
-	public ModelAndView preview(@PathVariable String nome) {
+	@GetMapping("/{url_encurtada}+")
+	public ModelAndView preview(@PathVariable String url_encurtada) {
 		Url url;
-		try {
-			// obtém a linha do banco que tem o nome {nome}
-			url = this.urlRep.findByNome(nome).get(0);
-		} catch(Exception e) {
-			System.out.println("Erro: não existe nenhum link com este nome: "+nome);
+		// busca no banco a url encurtada
+		List<Url> lista = this.urlRep.findByUrlEncurtada(url_encurtada);
+		// se existir alguma...
+		if (lista.size() > 0) {
+			// obtém a primeira (e só poderia ter 1 mesmo)
+			url = lista.get(0);
+		} else {
+			System.out.println("Erro: URL não cadastrada ("+url_encurtada+").");
 			return new ModelAndView("redirect:/");
 		}
 		ModelAndView mv = new ModelAndView("preview");
+		// adiciona as informações desta url no preview
 		mv.addObject("url", url);
-		
 		return mv;
 	}
 	

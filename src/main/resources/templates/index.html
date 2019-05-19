@@ -24,16 +24,17 @@
 					<div class="text-erro mb-2" th:if="${#fields.hasAnyErrors()}">
 						<p th:each="err : ${#fields.allErrors()}" th:text="${err}">...</p>
 					</div>
+					
 					<label for="url">Insira uma URL para encurtar</label>
 					<div class="input-group mb-4">
-						<input type="text" class="form-control" id="url" th:field="*{link}" placeholder="Ex.: https://www.google.com" required>
+						<input type="text" class="form-control" id="url" th:field="*{urlOriginal}" placeholder="Ex.: https://www.google.com" required>
 						<div class="input-group-append">
 							<input type="submit" class="btn btn-lg btn-primary btn-block" value="Encurtar">
 						</div>
 					</div>
 
 					<label for="nome">Personalize sua URL (opcional)</label>
-					<input type="text" class="form-control" id="nome" th:field="*{nome}" pattern="[A-z0-9]{1,64}" placeholder="Ex.: google">
+					<input type="text" class="form-control" id="nome" th:field="*{urlEncurtada}" placeholder="Ex.: google">
 				</form>
 			<div class="text-center">
 				<p class="mt-4 mb-0 text-muted">&copy; 2019 - Emerson</p>

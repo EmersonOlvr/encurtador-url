@@ -22,50 +22,53 @@ public class Url {
 	private Integer id;
 	
 	@Column(length=2048, nullable=false)
-	@NotBlank(message="Insira uma URL.", groups=LinkNotBlankGroup.class)
-	private String link;
+	@NotBlank(message="Insira uma URL.", groups=UrlOriginalNotBlankGroup.class)
+	private String urlOriginal;
 	
 	@Column(length=64, unique=true)
-	@Pattern(regexp="^[A-z0-9]*$", message="Nome inválido: somente letras e números são permitidos.", groups=NomePatternGroup.class)
-	@Size(max=64, message="Nome muito grande. Máximo de 64 caracteres.", groups=NomeSizeMaxGroup.class)
-	private String nome;
+	@Pattern(regexp="^[A-z0-9]*$", message="Nome inválido: somente letras e números são permitidos.", groups=UrlEncurtadaPatternGroup.class)
+	@Size(max=64, message="Nome muito grande. Máximo de 64 caracteres.", groups=UrlEncurtadaSizeMaxGroup.class)
+	private String urlEncurtada;
 	
-	private boolean personalizado;
+	private boolean personalizada;
 	private int acessos;
 	
+	// getters e setters
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getLink() {
-		return link;
+	public String getUrlOriginal() {
+		return urlOriginal;
 	}
-	public void setLink(String link) {
-		if (!link.contains("://")) {
-			this.link = "http://"+link;
+	public void setUrlOriginal(String urlOriginal) {
+		// atribui http:// no link se não tiver
+		if (!urlOriginal.contains("://")) {
+			this.urlOriginal = "http://"+urlOriginal;
 		} else {
-			this.link = link;
+			this.urlOriginal = urlOriginal;
 		}
 	}
-	public String getNome() {
-		return nome;
+	public String getUrlEncurtada() {
+		return urlEncurtada;
 	}
-	public void setNome(String nome) {
-		if (nome.isEmpty()) {
-			this.nome = this.gerarNome(4);
-			this.personalizado = false;
+	public void setUrlEncurtada(String personalizacao) {
+		// se não receber nenhuma personalização gera uma aleatória
+		if (personalizacao.isEmpty()) {
+			this.urlEncurtada = this.gerarNome(4);
+			this.personalizada = false;
 		} else {
-			this.nome = nome;
-			this.personalizado = true;
+			this.urlEncurtada = personalizacao;
+			this.personalizada = true;
 		}
 	}
-	public boolean isPersonalizado() {
-		return personalizado;
+	public boolean isPersonalizada() {
+		return personalizada;
 	}
-	public void setPersonalizado(boolean personalizado) {
-		this.personalizado = personalizado;
+	public void setPersonalizada(boolean personalizada) {
+		this.personalizada = personalizada;
 	}
 	public int getAcessos() {
 		return acessos;
@@ -76,12 +79,15 @@ public class Url {
 	
 	@Override
 	public String toString() {
-		return "Url [id=" + id + ", link=" + link + ", nome=" + nome + ", personalizado=" + personalizado + ", acessos="
-				+ acessos + "]";
+		return "Url [id=" + id + ", urlOriginal=" + urlOriginal + ", urlEncurtada=" + urlEncurtada + ", personalizada="
+				+ personalizada + ", acessos=" + acessos + "]";
 	}
 	
 	public String gerarNome(int tamanho) {
-		char[] letras = "bZwCF8gSak4Ru1KVoz2yJXQrPTmi7Mc3BH0Lv5YtsWlOIDdfN6qGejAp9xUEnh".toCharArray();
+		// se tamanho = 2: 3.782 links possíveis
+		// se tamanho = 3: 226.920 links possíveis
+		// se tamanho = 4: 13.388.280 links possíveis
+		char[] letras = "bZwCF8gSak4Ru1KVoz2yJXQrPTmi7Mc3BH0Lv5YtsWlOIDdfN6qGejAp9xUEnh".toCharArray(); // 62 caracteres
 		StringBuffer nome = new StringBuffer();
 		
 		for (int i = 0; i < tamanho; i++) {

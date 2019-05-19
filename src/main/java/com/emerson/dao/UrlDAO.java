@@ -8,8 +8,8 @@ import com.emerson.model.Url;
 
 public interface UrlDAO extends JpaRepository<Url, Integer>{
 
-	List<Url> findByNome(String nome);
-	List<Url> findByLink(String link);
-	List<Url> findByLinkAndPersonalizado(String link, boolean personalizado);
+	List<Url> findByUrlEncurtada(String url_encurtada);
+	List<Url> findByUrlOriginal(String url_original);
+	List<Url> findByUrlOriginalAndPersonalizada(String url_original, boolean personalizada);
 	
 }
