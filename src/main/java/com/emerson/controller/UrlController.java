@@ -98,13 +98,5 @@ public class UrlController {
 		
 		return mv;
 	}
-	@GetMapping("/teste")
-	public String teste() {
-		String teste = "       ola       mundo";
-		System.out.println(teste);
-		teste = teste.replaceAll("\\ ", "%20");
-		System.out.println(teste);
-		return "redirect:/";
-	}
 	
 }
