@@ -1,0 +1,87 @@
+html,
+body {
+	height: 100%;
+}
+
+body {
+	display: -ms-flexbox;
+	display: -webkit-box;
+	display: flex;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #85A1B6;
+}
+
+.principal {
+	background-color: white;
+	width: 100%;
+	max-width: 360px;
+	padding: 15px;
+	margin: 0 auto;
+
+	padding: 30px;
+	box-shadow: 0px 0px 70px rgba(0,0,0,0.4);
+	border-radius: 10px;
+}
+.principal .checkbox {
+	font-weight: 400;
+}
+.principal .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
+}
+.principal .form-control:focus {
+	z-index: 2;
+}
+
+.form-entrar input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-entrar input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.form-registrar input[name="nome"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-registrar input[name="email"] {
+	margin-bottom: -1px;
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-registrar input[name="senha"] {
+	margin-bottom: -1px;
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-registrar input[name="senha_repetida"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.text-erro {
+	color: red;
+}
+.text-sucesso {
+	color: green;
+}

@@ -1,0 +1,6 @@
+# Este arquivo impede que os arquivos de extensão .php neste diretório sejam acessados por intrusos fora do servidor
+
+<Files ~ "\.(htaccess|php)$">
+order allow,deny
+deny from all
+</Files>

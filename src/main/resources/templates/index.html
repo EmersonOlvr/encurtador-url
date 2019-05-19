@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Sistema para encurtar URLs">
+		<meta name="author" content="Emerson">
+		<link rel="icon" type="text/css" href="/img/e_icon.ico">
+		
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap.min.css">
+		
+		<!-- Custom styles for this template -->
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+		
+		<title>Encurtador de URL</title>
+	</head>
+
+	<body class="text-left">
+		<div class="principal" style="max-width: 660px;">
+		 	
+			<div class="mt-2"></div>
+				<form th:object="${url}" method="POST" onsubmit="return url.value!=''">
+					<div class="text-erro mb-2" th:if="${#fields.hasAnyErrors()}">
+						<p th:each="err : ${#fields.allErrors()}" th:text="${err}">...</p>
+					</div>
+					<label for="url">Insira uma URL para encurtar</label>
+					<div class="input-group mb-4">
+						<input type="text" class="form-control" id="url" th:field="*{link}" placeholder="Ex.: https://www.google.com" required>
+						<div class="input-group-append">
+							<input type="submit" class="btn btn-lg btn-primary btn-block" value="Encurtar">
+						</div>
+					</div>
+
+					<label for="nome">Personalize sua URL (opcional)</label>
+					<input type="text" class="form-control" id="nome" th:field="*{nome}" pattern="[A-z0-9]{1,64}" placeholder="Ex.: google">
+				</form>
+			<div class="text-center">
+				<p class="mt-4 mb-0 text-muted">&copy; 2019 - Emerson</p>
+			</div>
+		</div>
+	</body>
+</html>

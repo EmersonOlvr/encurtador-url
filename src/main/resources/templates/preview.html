@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Sistema para encurtar URLs">
+		<meta name="author" content="Emerson">
+		<link rel="icon" type="text/css" href="/img/e_icon.ico">
+		
+		<!-- Bootstrap core CSS -->
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap/bootstrap.min.css">
+		
+		<!-- Custom styles for this template -->
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+		
+		<title>Encurtador de URL</title>
+	</head>
+<body class="text-left">
+	<div class="principal" style="max-width: 660px;">
+		<div class="input-group mb-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text" style="background-color: #ffffff; width: 145px;">URL Encurtada: </span>
+			</div>
+			<input type="text" id="url_encurtada" class="form-control" th:value="|localhost/${url.nome}|" onclick="this.select()" readonly>
+		</div>
+		<div class="input-group mb-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text" style="background-color: #ffffff; width: 145px;">Total de acessos: </span>
+			</div>
+			<input type="text" id="acessos" class="form-control" th:value="${url.acessos}" readonly>
+		</div>
+		<div class="input-group mb-4">
+			<div class="input-group-prepend">
+				<span class="input-group-text" style="background-color: #ffffff; width: 145px;">URL Original: </span>
+			</div>
+			<input type="text" id="acessos" class="form-control" th:value="${url.link}" onclick="this.select()" readonly>
+		</div>
+		
+		<div>Crie outra <a href="/">URL encurtada</a>.</div>
+		
+		<div class="text-center">
+			<p class="mt-4 mb-0 text-muted">&copy; 2019 - Emerson</p>
+		</div>
+	</div>
+</body>
+</html>
