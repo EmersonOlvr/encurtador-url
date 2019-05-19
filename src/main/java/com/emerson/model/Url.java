@@ -80,7 +80,7 @@ public class Url {
 				+ acessos + "]";
 	}
 	
-	public String GerarNome(int tamanho) {
+	public String gerarNome(int tamanho) {
 		char[] letras = "bZwCF8gSak4Ru1KVoz2yJXQrPTmi7Mc3BH0Lv5YtsWlOIDdfN6qGejAp9xUEnh".toCharArray();
 		StringBuffer nome = new StringBuffer();
 		
