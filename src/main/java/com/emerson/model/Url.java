@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.emerson.errorgroups.urls.*;
+import com.emerson.errorgroups.url.*;
 
 @Entity
 @Table(name="urls")
